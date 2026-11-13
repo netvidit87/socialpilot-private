@@ -1,0 +1,41 @@
+name = "socialpilot-private"
+main = "worker/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# Serve frontend build as static assets (SPA)
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[vars]
+APP_NAME = "SocialPilot Private"
+APP_URL = "https://socialpilot-private.deckyoktario24.workers.dev"
+ENVIRONMENT = "production"
+DEFAULT_TIMEZONE = "Asia/Jakarta"
+AI_DAILY_LIMIT = "30"
+
+# D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "socialpilot-db"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+# R2 for media uploads
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "socialpilot-media"
+
+# Cron Triggers - lebih responsif
+[triggers]
+crons = [
+  "*/15 * * * *",
+  "0 */6 * * *",
+  "0 3 * * *"
+]
+
+# Secrets (set di Cloudflare Dashboard / CLI):
+# SESSION_SECRET, ENCRYPTION_KEY (wajib)
+# META_APP_ID, META_APP_SECRET, AI_API_KEY

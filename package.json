@@ -1,0 +1,46 @@
+{
+  "name": "socialpilot-private",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:worker": "wrangler dev",
+    "dev:all": "concurrently -n worker,vite -c blue,green \"npm run dev:worker\" \"npm run dev\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && wrangler deploy",
+    "db:create": "wrangler d1 create socialpilot-db",
+    "db:migrate:local": "wrangler d1 migrations apply socialpilot-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply socialpilot-db --remote",
+    "db:studio": "wrangler d1 execute socialpilot-db --local --command \"SELECT name FROM sqlite_master WHERE type='table';\"",
+    "secret:generate": "echo '\\nSESSION_SECRET:' && openssl rand -hex 48 && echo '\\nENCRYPTION_KEY:' && openssl rand -base64 32 && echo ''",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "cf:login": "wrangler login",
+    "cf:tail": "wrangler tail"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "recharts": "^2.12.7",
+    "date-fns": "^3.6.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.441.0",
+    "zustand": "^4.5.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240919.0",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.0.1",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.11",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.6",
+    "wrangler": "^3.78.0"
+  }
+}
